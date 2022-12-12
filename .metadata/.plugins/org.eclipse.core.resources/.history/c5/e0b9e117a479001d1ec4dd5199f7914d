@@ -1,0 +1,10 @@
+
+
+/**
+ * main.c
+ */
+int main(void)
+{
+    print("%f", (double) 1 << 14);
+	return 0;
+}

@@ -1,0 +1,8 @@
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+);

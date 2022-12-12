@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <math.h>
+#include "cordic.h"
+
+float cordic_sin(float angle)
+{
+    short int x1, y1, z1, x2, y2, z2;
+    x1 =
+}
+
+
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+) {
+    short int x_tmp, y_tmp, z_tmp;
+    short int d;
+
+    short int i = 0;
+
+
+    for (i = 0; i < RESOLUTION; i++) {
+        x_tmp = (y >> i);
+        y_tmp = (x >> i);
+        z_tmp = CORDIC_TABLE[i];
+        d = __sign(z);
+
+        if (d < 0) {
+            y_tmp *= -1;
+            z_tmp *= -1;
+        } else {
+            x_tmp *= -1;
+        }
+
+        x = x + y_tmp;
+        y = y + x_tmp;
+        z = z + z_tmp;
+    }
+
+    * x_out = x;
+    * y_out = y;
+    * z_out = z;
+}
+
+/**
+ * Converts a float value
+ * to an equivalent in short int type
+ */
+short int __int(float value)
+{
+    return (short int) value * (1 << 14);
+}
+
+/**
+ * Converts a short integer value
+ * to an equivalent in float type
+ */
+float __float(short int value)
+{
+    return (float) value / (1 << 14);
+}
+
+/**
+ * Returns -1 if value is less than zero.
+ * Returns  1 if value is greater or equals than zero.
+ */
+short int __sign(short int value)
+{
+    return (value < 0) ? -1 : 1;
+}
+
+

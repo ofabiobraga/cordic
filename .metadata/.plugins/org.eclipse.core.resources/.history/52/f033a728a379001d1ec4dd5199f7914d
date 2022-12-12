@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <math.h>
+#include "cordic.h"
+
+short int CORDIC_TABLE[RESOLUTION] = { 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
+
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+) {
+    short int x_tmp, y_tmp, z_tmp;
+    short int d;
+
+    short int i = 0;
+
+
+    for (i = 0; i < CORDIC_RESOLUTION; i++) {
+        x_tmp = (y >> i);
+        y_tmp = (x >> i);
+        z_tmp = CORDIC_TABLE[i];
+        d = __sign(z);
+
+        if (d < 0) {
+            y_tmp *= -1;
+            z_tmp *= -1;
+        } else {
+            x_tmp *= -1;
+        }
+
+        x = x + y_tmp;
+        y = y + x_tmp;
+        z = z + z_tmp;
+    }
+
+    * x_out = x;
+    * y_out = y;
+    * z_out = z;
+}
+
+
+short int __sign(short int value)
+{
+    return (value < 0) ? -1 : 1;
+}
+
+

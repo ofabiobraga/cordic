@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include "cordic.h"
+
+/**
+ * main.c
+ */
+int main(void)
+{
+    cordic_sin(30.0);
+	return 0;
+}

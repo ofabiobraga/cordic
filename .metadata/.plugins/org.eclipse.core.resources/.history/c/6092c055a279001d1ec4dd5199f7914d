@@ -1,0 +1,30 @@
+// Parameters
+#define RESOLUTION 16
+
+#define METHOD_LINEAR 0
+#define METHOD_CIRCULAR 1
+#define METHOD_HYPERBOLIC 2
+
+
+// Internal functions
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+);
+
+short int __sign(short int value);
+
+
+// Public functions
+float cordic_sin(float angle);
+float cordic_cos(float angle);
+float cordic_sinh(float angle);
+float cordic_cosh(float angle);
+float cordic_divide(float angle);
+float cordic_multiply(float angle);
+float cordic_pol2rect(float angle);
+float cordic_rect2pol(float angle);

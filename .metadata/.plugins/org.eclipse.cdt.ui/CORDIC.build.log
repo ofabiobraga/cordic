@@ -1,0 +1,25 @@
+
+**** Build of configuration Debug for project CORDIC ****
+
+"C:\\ti\\ccs1210\\ccs\\utils\\bin\\gmake" -k -j 12 all -O 
+ 
+Building file: "../main.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 4: warning #83-D: storage class is not first
+"../main.c", line 4: warning #179-D: variable "ANGLES" was declared but never referenced
+Finished building: "../main.c"
+ 
+Building file: "../cordic.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="cordic.d_raw"  "../cordic.c"
+Finished building: "../cordic.c"
+ 
+Building target: "CORDIC.out"
+Invoking: C5500 Linker
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 -z -m"CORDIC.map" --stack_size=0x200 --heap_size=0x400 -i"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="CORDIC_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "CORDIC.out" "./cordic.obj" "./main.obj" "../VC5502.cmd"  -llibc.a 
+<Linking>
+Finished building target: "CORDIC.out"
+ 
+
+**** Build Finished ****

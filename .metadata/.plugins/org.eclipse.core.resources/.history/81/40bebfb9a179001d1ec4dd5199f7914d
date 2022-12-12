@@ -1,0 +1,21 @@
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+);
+
+void __sign(short int value);
+
+
+// Public functions
+void cordic_sin(short int angle);
+void cordic_cos(short int angle);
+void cordic_sinh(short int angle);
+void cordic_cosh(short int angle);
+void cordic_divide(short int angle);
+void cordic_multiply(short int angle);
+void cordic_pol2rect(short int angle);
+void cordic_rect2pol(short int angle);

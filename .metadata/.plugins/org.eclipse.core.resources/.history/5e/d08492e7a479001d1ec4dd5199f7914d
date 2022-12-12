@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+/**
+ * main.c
+ */
+int main(void)
+{
+    printf("%f", (double) (1 << 14));
+	return 0;
+}

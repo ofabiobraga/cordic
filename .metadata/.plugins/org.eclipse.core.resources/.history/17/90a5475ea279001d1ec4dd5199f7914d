@@ -1,0 +1,19 @@
+// Parameters
+#define RESOLUTION 16
+
+#define METHOD_LINEAR 0
+#define METHOD_CIRCULAR 1
+#define METHOD_HYPERBOLIC 2
+
+
+// Internal functions
+void __cordic_compute(
+    short int x,
+    short int y,
+    short int z,
+    short int * x_out,
+    short int * y_out,
+    short int * z_out
+);
+
+short int __sign(short int value);
