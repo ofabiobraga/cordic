@@ -942,3 +942,101 @@ Finished building target: "CORDIC.out"
  
 
 **** Build Finished ****
+
+**** Build of configuration Debug for project CORDIC ****
+
+"C:\\ti\\ccs1210\\ccs\\utils\\bin\\gmake" -k -j 12 all -O 
+ 
+Building file: "../cordic.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="cordic.d_raw"  "../cordic.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'cordic.obj' failed
+"../cordic.c", line 29: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 29: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 29: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 50: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 50: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 50: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 71: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 71: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 71: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 92: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 92: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 92: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 115: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 115: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 115: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 141: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 141: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 141: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 162: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 162: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 162: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 183: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 183: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 183: error #169: argument of type "short *" is incompatible with parameter of type "int16_t *"
+"../cordic.c", line 273: error #148: declaration is incompatible with "short __int(float)" (declared at line 61 of "..\cordic.h")
+25 errors detected in the compilation of "../cordic.c".
+gmake: *** [cordic.obj] Error 1
+Building file: "../main.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 6: warning #83-D: storage class is not first
+"../main.c", line 18: warning #83-D: storage class is not first
+"../main.c", line 30: warning #83-D: storage class is not first
+Finished building: "../main.c"
+ 
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project CORDIC ****
+
+"C:\\ti\\ccs1210\\ccs\\utils\\bin\\gmake" -k -j 12 all -O 
+ 
+Building file: "../main.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+ 
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'main.obj' failed
+"../main.c", line 6: warning #83-D: storage class is not first
+"../main.c", line 18: warning #83-D: storage class is not first
+"../main.c", line 30: warning #83-D: storage class is not first
+"../main.c", line 48: error #29: expected an expression
+"../main.c", line 48: error #20: identifier "i" is undefined
+"../main.c", line 69: error #29: expected an expression
+"../main.c", line 89: error #29: expected an expression
+4 errors detected in the compilation of "../main.c".
+gmake: *** [main.obj] Error 1
+Building file: "../cordic.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="cordic.d_raw"  "../cordic.c"
+Finished building: "../cordic.c"
+ 
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project CORDIC ****
+
+"C:\\ti\\ccs1210\\ccs\\utils\\bin\\gmake" -k -j 12 all -O 
+ 
+Building file: "../main.c"
+Invoking: C5500 Compiler
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 6: warning #83-D: storage class is not first
+"../main.c", line 18: warning #83-D: storage class is not first
+"../main.c", line 30: warning #83-D: storage class is not first
+Finished building: "../main.c"
+ 
+Building target: "CORDIC.out"
+Invoking: C5500 Linker
+"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 -z -m"CORDIC.map" --stack_size=0x200 --heap_size=0x400 -i"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="CORDIC_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "CORDIC.out" "./cordic.obj" "./main.obj" "../VC5502.cmd"  -llibc.a 
+<Linking>
+Finished building target: "CORDIC.out"
+ 
+
+**** Build Finished ****

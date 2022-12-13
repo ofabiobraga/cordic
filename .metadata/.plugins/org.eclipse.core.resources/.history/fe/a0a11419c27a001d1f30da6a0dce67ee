@@ -1,0 +1,346 @@
+#ifndef __CORDIC__
+#define __CORDIC__
+
+#include <stdio.h>
+#include <math.h>
+#include <stdint.h>
+#include "cordic.h"
+
+// 2^(-i), i = [0..15], mapped from float to int16_t
+static const int16_t CORDIC_CTAB_LINEAR[RESOLUTION] = { 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
+
+// atan(2^(-i)), i = [0..15], mapped from float to int16_t
+static const int16_t CORDIC_CTAB_CIRCULAR[RESOLUTION] = { 12867, 7596, 4013, 2037, 1022, 511, 255, 127, 63, 31, 15, 7, 3, 1, 0, 0 };
+
+// atanh(2^(-i)), i = [0..15], mapped from float to int16_t
+static const int16_t CORDIC_CTAB_HYPERBOLIC[RESOLUTION] = { 32000, 8999, 4184, 2058, 1025, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
+
+static const int16_t CORDIC_HYPERBOLIC_STEPS[RESOLUTION] = { 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13, 14 };
+
+/**
+ * Calculates sin(angle)
+ *
+ * @param float angle
+ * @return float
+ */
+float cordic_sin(float angle)
+{
+    int16_t x, y, z;
+
+    angle = __radians(angle);
+
+    x = __int(GAIN_DEFAULT);
+    y = __int(0);
+    z = __int(angle);
+
+    __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
+
+    // [Debug]
+    printf("sin(%f) = %f ~ %f\n", angle, __decimal(y), sin(angle));
+
+    return __decimal(y);
+}
+
+/**
+ * Calculates cos(angle)
+ *
+ * @param float angle
+ * @return float
+ */
+float cordic_cos(float angle)
+{
+    int16_t x, y, z;
+
+    angle = __radians(angle);
+
+    x = __int(GAIN_DEFAULT);
+    y = __int(0);
+    z = __int(angle);
+
+    __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
+
+    // [Debug]
+    printf("cos(%f) = %f ~ %f\n", angle, __decimal(x), cos(angle));
+
+    return __decimal(x);
+}
+
+/**
+ * Calculates cosh(angle)
+ *
+ * @param float angle
+ * @return float
+ */
+float cordic_sinh(float angle)
+{
+    int16_t x, y, z;
+
+    angle = __radians(angle);
+
+    x = __int(GAIN_HYPERBOLIC);
+    y = __int(0);
+    z = __int(angle);
+
+    __cordic(&x, &y, &z, METHOD_HYPERBOLIC, MODE_ROTATION);
+
+    // [Debug]
+    printf("sinh(%f) = %f ~ %f\n", angle, __decimal(y), sinh(angle));
+
+    return __decimal(y);
+}
+
+/**
+ * Calculates cosh(angle)
+ *
+ * @param float angle
+ * @return float
+ */
+float cordic_cosh(float angle)
+{
+    int16_t x, y, z;
+
+    angle = __radians(angle);
+
+    x = __int(GAIN_HYPERBOLIC);
+    y = __int(0);
+    z = __int(angle);
+
+    __cordic(&x, &y, &z, METHOD_HYPERBOLIC, MODE_ROTATION);
+
+    // [Debug]
+    printf("sinh(%f) = %f ~ %f\n", angle, __decimal(x), cosh(angle));
+
+    return __decimal(x);
+}
+
+/**
+ * Converts polar coordinates to rectangular form
+ *
+ * @param float angle
+ * @param float radius
+ * @return float
+ */
+float cordic_pol2rec(float angle, float radius)
+{
+    int16_t x, y, z;
+
+    angle = __radians(angle);
+
+    x = __int(GAIN_DEFAULT * radius);
+    y = __int(0);
+    z = __int(angle);
+
+    __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
+
+    // [Debug]
+    printf("pol2rec(%f, %f) = [%f, %f] ~ [%f, %f]\n", angle, radius, __decimal(x), __decimal(y), radius * cos(angle), radius * sin(angle));
+
+    return __decimal(x);
+}
+
+/**
+ * Converts rectangular coordinates to polar form
+ *
+ * @param float a
+ * @param float b
+ * @return float
+ */
+float cordic_rec2pol(float a, float b)
+{
+    int16_t x, y, z;
+
+    x = __int(GAIN_DEFAULT * a);
+    y = __int(GAIN_DEFAULT * b);
+    z = __int(0);
+
+    __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_VECTORING);
+
+    // [Debug]
+    printf("rec2pol(%f, %f) = [%f, %f] ~ [%f, %f]\n", a, b, __decimal(x), __decimal(z), sqrt(a*a + b*b), atan(b/a));
+
+    return __decimal(x);
+}
+
+/**
+ * Calculates a * b
+ *
+ * @param float a
+ * @param float b
+ * @return float
+ */
+float cordic_multiply(float a, float b)
+{
+    int16_t x, y, z;
+
+    x = __int(a);
+    y = __int(0);
+    z = __int(b);
+
+    __cordic(&x, &y, &z, METHOD_LINEAR, MODE_ROTATION);
+
+    // [Debug]
+    printf("multiply(%f, %f) = %f ~ %f\n", a, b, __decimal(y), a * b);
+
+    return __decimal(y);
+}
+
+
+/**
+ * Calculates a / b
+ *
+ * @param float a
+ * @param float b
+ * @return float
+ */
+float cordic_divide(float a, float b)
+{
+    int16_t x, y, z;
+
+    x = __int(a);
+    y = __int(b);
+    z = __int(0);
+
+    __cordic(&x, &y, &z, METHOD_LINEAR, MODE_VECTORING);
+
+    // [Debug]
+    printf("divide(%f, %f) = %f ~ %f\n", a, b, __decimal(z), a / b);
+
+    return __decimal(z);
+}
+
+/**
+ * Cordic engine algorithm
+ *
+ * @param int16_t x
+ * @param int16_t y
+ * @param int16_tz
+ * @param short method
+ * @param short mode
+ */
+void __cordic(
+        int16_t * x,
+        int16_t * y,
+        int16_t * z,
+        int16_t method,
+        int16_t mode
+) {
+    int16_t x_tmp = * x,
+            y_tmp = * y,
+            z_tmp = * z;
+
+    int16_t x_prev,
+            y_prev;
+
+    unsigned int i, k;
+
+    for (i = 0; i < RESOLUTION; i++) {
+        // Special steps for HYPERBOLIC case
+        k = (method == METHOD_HYPERBOLIC) ? CORDIC_HYPERBOLIC_STEPS[i] : i;
+
+        x_prev = (x_tmp >> k);
+        y_prev = (y_tmp >> k);
+
+        if (__d(x_tmp, y_tmp, z_tmp, mode) > 0) {
+            // For HYPERBOLIC calculations
+            if (method == METHOD_HYPERBOLIC) {
+                x_tmp = x_tmp + y_prev;
+                y_tmp = y_tmp + x_prev;
+                z_tmp = z_tmp - CORDIC_CTAB_HYPERBOLIC[k];
+
+            // For CIRCULAR calculations
+            } else if (method == METHOD_CIRCULAR) {
+                x_tmp = x_tmp - y_prev;
+                y_tmp = y_tmp + x_prev;
+                z_tmp = z_tmp - CORDIC_CTAB_CIRCULAR[k];
+
+            // For LINEAR calculations
+            } else {
+                x_tmp = x_tmp + y_prev;
+                y_tmp = y_tmp + x_prev;
+                z_tmp = z_tmp - CORDIC_CTAB_LINEAR[k];
+            }
+        } else {
+            // For HYPERBOLIC calculations
+            if (method == METHOD_HYPERBOLIC) {
+                x_tmp = x_tmp - y_prev;
+                y_tmp = y_tmp - x_prev;
+                z_tmp = z_tmp + CORDIC_CTAB_HYPERBOLIC[k];
+
+            // For CIRCULAR calculations
+            } else if (method == METHOD_CIRCULAR) {
+                x_tmp = x_tmp + y_prev;
+                y_tmp = y_tmp - x_prev;
+                z_tmp = z_tmp + CORDIC_CTAB_CIRCULAR[k];
+
+            // For LINEAR calculations
+            } else {
+                x_tmp = x_tmp + 0;
+                y_tmp = y_tmp - x_prev;
+                z_tmp = z_tmp + CORDIC_CTAB_LINEAR[k];
+            }
+        }
+    }
+
+    * x = x_tmp;
+    * y = y_tmp;
+    * z = z_tmp;
+}
+
+/**
+ * Converts a float value
+ * to an equivalent in int type
+ *
+ * @param float value
+ * @return int16_T
+ */
+int16_t __int(float value)
+{
+    return (int16_t) (value * (float)(1 << 14));
+}
+
+/**
+ * Converts a integer value
+ * to an equivalent in float type
+ *
+ * @param int16_t value
+ * @return float
+ */
+float __decimal(int16_t value)
+{
+    return (float) (value / (float)(1 << 14));
+}
+
+/**
+ * Converts a degree value into radian
+ *
+ * @param float degree
+ * @return float
+ */
+float __radians(float degree)
+{
+    return degree * 3.1459 / 180;
+}
+
+/**
+ * Returns the direction to CORDIC
+ *
+ * @param int16_t x
+ * @param int16_t y
+ * @param int16_t z
+ * @param short   mode
+ */
+int16_t __d(int16_t x, int16_t y, int16_t z, int16_t mode)
+{
+    if (mode == MODE_ROTATION) {
+        return (z < 0) ? -1 : 1;
+    }
+
+    // Special conditions for VECTORING mode case
+    if (x >= 0) {
+        return (y >= 0) ? -1 : 1;
+    }
+
+    return (y >= 0) ? 1 : -1;
+}
+
+#endif /* __CORDIC__ */

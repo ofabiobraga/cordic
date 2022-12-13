@@ -6,14 +6,10 @@
 Building file: "../main.c"
 Invoking: C5500 Compiler
 "C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
-"../main.c", line 4: warning #83-D: storage class is not first
-"../main.c", line 4: warning #179-D: variable "ANGLES" was declared but never referenced
+"../main.c", line 6: warning #83-D: storage class is not first
+"../main.c", line 18: warning #83-D: storage class is not first
+"../main.c", line 30: warning #83-D: storage class is not first
 Finished building: "../main.c"
- 
-Building file: "../cordic.c"
-Invoking: C5500 Compiler
-"C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=large -g --include_path="C:/Users/fabio/Documents/LAB3/Two/CORDIC" --include_path="C:/ti/ccs1210/ccs/tools/compiler/c5500_4.4.1/include" --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 --preproc_with_compile --preproc_dependency="cordic.d_raw"  "../cordic.c"
-Finished building: "../cordic.c"
  
 Building target: "CORDIC.out"
 Invoking: C5500 Linker
