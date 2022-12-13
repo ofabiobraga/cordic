@@ -1,18 +1,11 @@
 #ifndef __CORDIC__
 #define __CORDIC__
 
-#include <stdio.h>
-#include <math.h>
 #include <stdint.h>
 #include "cordic.h"
 
-// 2^(-i), i = [0..15], mapped from float to int16_t
 static const int16_t CORDIC_CTAB_LINEAR[RESOLUTION] = { 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
-
-// atan(2^(-i)), i = [0..15], mapped from float to int16_t
 static const int16_t CORDIC_CTAB_CIRCULAR[RESOLUTION] = { 12867, 7596, 4013, 2037, 1022, 511, 255, 127, 63, 31, 15, 7, 3, 1, 0, 0 };
-
-// atanh(2^(-i)), i = [0..15], mapped from float to int16_t
 static const int16_t CORDIC_CTAB_HYPERBOLIC[RESOLUTION] = { 32000, 8999, 4184, 2058, 1025, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
 
 static const int16_t CORDIC_HYPERBOLIC_STEPS[RESOLUTION] = { 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13, 14 };
@@ -35,9 +28,6 @@ float cordic_sin(float angle)
 
     __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
 
-    // [Debug]
-    printf("sin(%f) = %f ~ %f\n", angle, __decimal(y), sin(angle));
-
     return __decimal(y);
 }
 
@@ -58,9 +48,6 @@ float cordic_cos(float angle)
     z = __int(angle);
 
     __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
-
-    // [Debug]
-    printf("cos(%f) = %f ~ %f\n", angle, __decimal(x), cos(angle));
 
     return __decimal(x);
 }
@@ -83,9 +70,6 @@ float cordic_sinh(float angle)
 
     __cordic(&x, &y, &z, METHOD_HYPERBOLIC, MODE_ROTATION);
 
-    // [Debug]
-    printf("sinh(%f) = %f ~ %f\n", angle, __decimal(y), sinh(angle));
-
     return __decimal(y);
 }
 
@@ -107,9 +91,6 @@ float cordic_cosh(float angle)
 
     __cordic(&x, &y, &z, METHOD_HYPERBOLIC, MODE_ROTATION);
 
-    // [Debug]
-    printf("sinh(%f) = %f ~ %f\n", angle, __decimal(x), cosh(angle));
-
     return __decimal(x);
 }
 
@@ -118,10 +99,11 @@ float cordic_cosh(float angle)
  *
  * @param float angle
  * @param float radius
- * @return float
+ * @param float * x_out
+ * @param float * y_out
+ * @return void
  */
-float cordic_pol2rec(float angle, float radius)
-{
+void cordic_pol2rec(float angle, float radius, float * x_out, float * y_out) {
     int16_t x, y, z;
 
     angle = __radians(angle);
@@ -132,10 +114,8 @@ float cordic_pol2rec(float angle, float radius)
 
     __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_ROTATION);
 
-    // [Debug]
-    printf("pol2rec(%f, %f) = [%f, %f] ~ [%f, %f]\n", angle, radius, __decimal(x), __decimal(y), radius * cos(angle), radius * sin(angle));
-
-    return __decimal(x);
+    *x_out = __decimal(x);
+    *y_out = __decimal(y);
 }
 
 /**
@@ -143,11 +123,16 @@ float cordic_pol2rec(float angle, float radius)
  *
  * @param float a
  * @param float b
- * @return float
+ * @param float * x_out
+ * @param float * y_out
+ * @return void
  */
-float cordic_rec2pol(float a, float b)
+void cordic_rec2pol(float a, float b, float * x_out, float * y_out)
 {
     int16_t x, y, z;
+
+    a = __radians(a);
+    b = __radians(b);
 
     x = __int(GAIN_DEFAULT * a);
     y = __int(GAIN_DEFAULT * b);
@@ -155,10 +140,8 @@ float cordic_rec2pol(float a, float b)
 
     __cordic(&x, &y, &z, METHOD_CIRCULAR, MODE_VECTORING);
 
-    // [Debug]
-    printf("rec2pol(%f, %f) = [%f, %f] ~ [%f, %f]\n", a, b, __decimal(x), __decimal(z), sqrt(a*a + b*b), atan(b/a));
-
-    return __decimal(x);
+    * x_out = __decimal(x);
+    * y_out = __decimal(z);
 }
 
 /**
@@ -177,9 +160,6 @@ float cordic_multiply(float a, float b)
     z = __int(b);
 
     __cordic(&x, &y, &z, METHOD_LINEAR, MODE_ROTATION);
-
-    // [Debug]
-    printf("multiply(%f, %f) = %f ~ %f\n", a, b, __decimal(y), a * b);
 
     return __decimal(y);
 }
@@ -201,9 +181,6 @@ float cordic_divide(float a, float b)
     z = __int(0);
 
     __cordic(&x, &y, &z, METHOD_LINEAR, MODE_VECTORING);
-
-    // [Debug]
-    printf("divide(%f, %f) = %f ~ %f\n", a, b, __decimal(z), a / b);
 
     return __decimal(z);
 }
@@ -305,9 +282,9 @@ int16_t __int(float value)
  * @param int16_t value
  * @return float
  */
-float __decimal(int16_t value)
+double __decimal(int16_t value)
 {
-    return (float) (value / (float)(1 << 14));
+    return (double) (value / (double)(1 << 14));
 }
 
 /**
@@ -327,7 +304,7 @@ float __radians(float degree)
  * @param int16_t x
  * @param int16_t y
  * @param int16_t z
- * @param short   mode
+ * @param int16_t mode
  */
 int16_t __d(int16_t x, int16_t y, int16_t z, int16_t mode)
 {

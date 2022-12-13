@@ -1,3 +1,7 @@
+//
+// Created by fabio on 11/12/2022.
+//
+
 #ifndef CORDIC_CORDIC_H
 #define CORDIC_CORDIC_H
 
@@ -22,8 +26,8 @@ float cordic_sinh(float angle);
 float cordic_cosh(float angle);
 float cordic_divide(float a, float b);
 float cordic_multiply(float a, float b);
-float cordic_pol2rec(float angle, float radius);
-float cordic_rec2pol(float angle, float radius);
+void cordic_pol2rec(float angle, float radius, float * x, float * y);
+void cordic_rec2pol(float a, float b, float * x, float * y);
 
 // Internal functions
 
@@ -48,7 +52,7 @@ void __cordic(
  * Converts a integer value
  * to an equivalent in float type
  */
-float __decimal(int16_t value);
+double __decimal(int16_t value);
 
 /**
  * Converts a float value
