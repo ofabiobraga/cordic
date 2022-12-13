@@ -6,13 +6,13 @@
 #include <stdint.h>
 #include "cordic.h"
 
-// 2^(-i), i = [0..15], mapped from float to int16_t
+// [Pre-calculated] 2^(-i), i = [0..15]
 static const int16_t CORDIC_CTAB_LINEAR[RESOLUTION] = { 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
 
-// atan(2^(-i)), i = [0..15], mapped from float to int16_t
+// [Pre-calculated] atan(2^(-i)), i = [0..15]
 static const int16_t CORDIC_CTAB_CIRCULAR[RESOLUTION] = { 12867, 7596, 4013, 2037, 1022, 511, 255, 127, 63, 31, 15, 7, 3, 1, 0, 0 };
 
-// atanh(2^(-i)), i = [0..15], mapped from float to int16_t
+// [Pre-calculated] atanh(2^(-i)), i = [0..15]
 static const int16_t CORDIC_CTAB_HYPERBOLIC[RESOLUTION] = { 32000, 8999, 4184, 2058, 1025, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0 };
 
 static const int16_t CORDIC_HYPERBOLIC_STEPS[RESOLUTION] = { 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13, 14 };
